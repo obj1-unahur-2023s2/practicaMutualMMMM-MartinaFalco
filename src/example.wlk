@@ -11,7 +11,8 @@ class Viaje{
 	method implicaEsfuerzo()
 	method dias()
 	method esInteresante() = idiomas.size() > 1
-	method esRecomendadaPara(socio) = self.esInteresante() and socio.leAtraeLaActividad(self) and not socio.actividadesRealizadas().contains(self)
+	method esRecomendadaPara(socio) = self.esInteresante() and socio.leAtraeLaActividad(self) and not self.realizoEstaActividad(socio)
+	method realizoEstaActividad(socio) = socio.actividadesRealizadas().contains(self)
 }
 
 class ViajeDePlaya inherits Viaje{
@@ -28,14 +29,14 @@ class Playa{
 class ExcursionCiudad inherits Viaje{
 	var property atracciones = 0
 	override method dias() = atracciones/2
-	override method implicaEsfuerzo() = atracciones.between(5,8) //debería poner entre 4 y 9 asi toma 5 y 8 también?
+	override method implicaEsfuerzo() = atracciones.between(5,8)
 	override method sirveParaBroncearse() = false
-	override method esInteresante() = atracciones == 5
+	override method esInteresante() = super() or atracciones == 5
 }
 
 class ExcursionCiudadTropical inherits ExcursionCiudad{
 	override method sirveParaBroncearse() = true
-	override method dias() = +1
+	override method dias() = super() +1
 }
 
 class SalidaTrekking inherits Viaje{
@@ -44,16 +45,17 @@ class SalidaTrekking inherits Viaje{
 	override method dias() = kilometros/50
 	override method implicaEsfuerzo() = kilometros > 80
 	override method sirveParaBroncearse() = ((diasDeSol > 200) or (diasDeSol.between(100,200)) and kilometros > 120) 
-	override method esInteresante() = diasDeSol > 140
+	override method esInteresante() = super() and diasDeSol > 140
 }
 
 class ClaseGimnasia{
-	const idiomas =#{}
-	method aniadirIdioma(idioma) = idiomas.add("Español") 
+	const idiomas = "Español"
 	method sirveParaBroncearse() = false
 	method implicaEsfuerzo() = true
 	method dias() = 1
-	method esRecomendadaPara(socio) = socio.edad().between(20,30)
+	method esRecomendadaPara(socio) = socio.edad().between(20,30
+		
+	)
 }
 
 //Socios de la mutual
@@ -77,7 +79,7 @@ class Socio{
 
 
 class SocioTranquilo inherits Socio{
-	override method leAtraeLaActividad(actividad) = actividad.dias() > 4
+	override method leAtraeLaActividad(actividad) = actividad.dias() >= 4
 }
 
 class SocioCoherente inherits Socio{

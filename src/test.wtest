@@ -1,0 +1,16 @@
+import example.*
+
+describe "Test de actividades"{
+	const p1= new Playa(largo = 1500)
+	const vp1 = new ViajeDePlaya(playa = p1)
+	
+	test "El viaje de playa sirve para broncearse" {
+	assert.that(vp1.sirveParaBroncearse()) 
+	}
+	
+	test "Si la playa tiene un largo mayor a 1200 implica esfuerzo"{
+		assert.that(vp1.implicaEsfuerzo()) 
+	}
+	
+
+}
